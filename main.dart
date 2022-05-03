@@ -1,66 +1,93 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(App());
+  runApp(const MyApp());
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Meu App',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      home: const MyHomePage(title: 'Home'),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
     );
   }
 }
+ 
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
 
-class HomePage extends StatefulWidget {
-  List<Item> items = [];
-
-  HomePage() {
-    items.add(Item(nome: 'Arroz', chek: true));
-    items.add(Item(nome: 'Feijão', chek: true));
-    items.add(Item(nome: 'Farinha', chek: true));
-  }
   @override
-  _HomePageState createState() => _HomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
     return Scaffold(
       appBar: AppBar(
-        leading: Text('OP'),
-        title: Text('HOME'),
-        actions: <Widget>[
-          Icon(Icons.local_cafe_rounded),
+        title: Text(widget.title),
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.blueGrey,
+        child: Container(
+          child: Text('Hello World!'),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis herre is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Você apertou o botão tantas vezes:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: widget.items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = widget.items[index]; //para evitar a repeticao
-          return CheckboxListTile(
-            title: Text(item.nome),
-            key: Key(item.nome),
-            value: item.chek,
-            onChanged: (value) {},
-          );
-        },
-      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
-
-class Item {
-  String nome;
-  bool chek;
-
-  Item({required this.nome, required this.chek});
 }
