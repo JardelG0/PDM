@@ -36,14 +36,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Text('Oppening'),
         title: Text('HOME'),
         actions: <Widget>[
           Icon(Icons.local_cafe_rounded),
+          Padding(padding: EdgeInsets.all(6)),
         ],
       ),
       drawer: Drawer(
-
+        
       ),
       body: ListView.builder(
         itemCount: widget.items.length,
